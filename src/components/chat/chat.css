@@ -1,0 +1,4 @@
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent; /* Optional: Make the track transparent */
+  }
