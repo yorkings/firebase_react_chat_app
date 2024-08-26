@@ -11,11 +11,21 @@
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 body{
-  background-image:url("bg.jpg") ;
+  background-image:url("bg-milk.webp") ;
+}
+.flexme{
+  flex:1
+}
+.flexme2{
+  flex:2
 }
 .container11{
- height: 95vh;
- width: 95vw;
+ height: 91vh;
+ width: 80vw;
  backdrop-filter:blur(18px) saturate(180%) ;
  border-radius: 12px;
+}
+.custom-scrollbar1::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent; /* Optional: Make the track transparent */
 }
