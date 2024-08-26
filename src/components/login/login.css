@@ -1,6 +1,24 @@
-input{
-    padding: 1.25rem;
-    border: none;
-    outline: none;
-    background-color: chocolate;
+.h2{
+    color:aqua;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+form{
+    input{
+        padding: 20px;
+        border: none;
+        outline: none;
+        background-color: rgba(17, 25, 40, 0.6);
+        color: white;
+        border-radius: 5px;
+    }
+    label{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: aqua;
+        cursor: pointer;
+        text-decoration: underline;
+    }
 }

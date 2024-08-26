@@ -1,6 +1,10 @@
 import { useState } from "react";
 import "./login.css"
-
+import { doc, setDoc } from "firebase/firestore"; 
+import { toast } from "react-toastify";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import  {db,auth} from'../lib/firebase';
+import upload from "../lib/Upload.js";
 const Login = () => {
   const [avatar,setAvatar]=useState({
     file:null,
@@ -15,28 +19,64 @@ const Login = () => {
         })
     }
   }
+  const handleRegister=async(e)=>{
+    e.preventDefault()
+    const formData= new FormData(e.target)
+    const {username,email,password}=Object.fromEntries(formData)
+
+    try{
+        
+       
+
+       const res= await createUserWithEmailAndPassword(auth,email,password)
+       const imgUrl= await upload(avatar.file)
+       await setDoc(doc(db, "users",res.user.uid ), {
+        username,
+        email,
+        avatar:imgUrl,
+        id:res.user.uid,
+        blocked:[]
+      });
+       
+      await setDoc(doc(db, "userchats",res.user.uid ), {
+        chats:[]
+      });
+      toast.success("Account created! You can login now!")
+    }catch(err){
+      console.log(err)
+      toast.error(err.message)
+    }
+  }
+
+  const handleLogin=e=>{
+    e.preventDefault()
+    toast.warn("invalid argument")
+  }
+
+
   return (
     <div className="h-[100%] w-[100%] flex items-center gap-24">
       <div className="flexme flex flex-col items-center gap-5 ">
-        <h2>welcome back,</h2>
-        <form action="" className="flex flex-col items-center justify-center gap-5">
-           <input type="text" placeholder="email" name="email"/>
-           <input type="password" placeholder="password" name="password" />
+        <h2 className="h2">welcome back,</h2>
+        <form onSubmit={handleLogin} className="flex flex-col items-center justify-center gap-5">
+           <input type="text" placeholder="email" name="email" className="p-5"/>
+           <input type="password" placeholder="password" name="password" className="p-5"/>
            
-           <button>Sign in</button>
+           <button className="p-5 w-[100%] cursor-pointer bg-sky-500  border-none outline-none  rounded-lg">Sign in</button>
         </form>
       </div>
-      <div className="sep"></div>
+      <div className="h-[80%] w-1 bg-[#dddddd34]"></div>
       <div className="flexme flex flex-col items-center gap-5">
-      <h2>Create an account ,</h2>
-        <form action="" className="flex flex-col items-center justify-center gap-5">
-            <label htmlFor="file">upload an image</label>
-            <img src={avatar.url || "./avatar.png"} alt="" />
-           <input type="file"  id="file" style={{display:"none"}} onChange={handleAvatar}/>
-           <input type="text"  placeholder="username" name="username"/>
-           <input type="text" placeholder="email" name="email"/>
-           <input type="password" placeholder="password" name="password" />
-           <button>Sign up</button>
+      <h2 className="h2">Create an account ,</h2>
+        <form   className="flex flex-col items-center justify-center gap-5" onSubmit={handleRegister}>
+            <label htmlFor="file">
+            <img src={avatar.url || "./avatar.png"} alt=""  className="h-12 w-12 rounded-lg object-cover opacity-60"/>
+            upload an image</label>
+           <input type="file"  id="file" style={{display:"none"}} onChange={handleAvatar} className="p-5"/>
+           <input type="text"  placeholder="username" name="username" className="p-5"/>
+           <input type="text" placeholder="email" name="email" className="p-5"/>
+           <input type="password" placeholder="password" name="password" className="p-5"/>
+           <button className="p-5 w-[100%] cursor-pointer bg-sky-700  border-none outline-none  rounded-lg">Sign up</button>
         </form>
       </div>
     </div>
