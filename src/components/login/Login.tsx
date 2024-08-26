@@ -74,7 +74,7 @@ const Login = () => {
             upload an image</label>
            <input type="file"  id="file" style={{display:"none"}} onChange={handleAvatar} className="p-5"/>
            <input type="text"  placeholder="username" name="username" className="p-5"/>
-           <input type="text" placeholder="email" name="email" className="p-5"/>
+           <input type="email" placeholder="email" name="email" className="p-5"/>
            <input type="password" placeholder="password" name="password" className="p-5"/>
            <button className="p-5 w-[100%] cursor-pointer bg-sky-700  border-none outline-none  rounded-lg">Sign up</button>
         </form>
