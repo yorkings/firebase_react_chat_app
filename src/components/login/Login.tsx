@@ -4,12 +4,13 @@ import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import  {db,auth} from'../lib/firebase';
-import upload from "../lib/Upload.js";
+import upload from "../lib/Upload";
 const Login = () => {
   const [avatar,setAvatar]=useState({
     file:null,
     url:""
   })  
+  const [loading,setLoading]=useState(false)
   const handleAvatar=e=>{
     if (e.target.files[0]) 
     {
@@ -21,6 +22,7 @@ const Login = () => {
   }
   const handleRegister=async(e)=>{
     e.preventDefault()
+    setLoading(true)
     const formData= new FormData(e.target)
     const {username,email,password}=Object.fromEntries(formData)
 
@@ -46,6 +48,9 @@ const Login = () => {
       console.log(err)
       toast.error(err.message)
     }
+    finally{
+      setLoading(false)
+    }
   }
 
   const handleLogin=e=>{
@@ -62,7 +67,7 @@ const Login = () => {
            <input type="text" placeholder="email" name="email" className="p-5"/>
            <input type="password" placeholder="password" name="password" className="p-5"/>
            
-           <button className="p-5 w-[100%] cursor-pointer bg-sky-500  border-none outline-none  rounded-lg">Sign in</button>
+           <button className="p-5 w-[100%] cursor-pointer bg-sky-500  border-none outline-none  rounded-lg" disabled={loading}>Sign in</button>
         </form>
       </div>
       <div className="h-[80%] w-1 bg-[#dddddd34]"></div>
@@ -76,7 +81,7 @@ const Login = () => {
            <input type="text"  placeholder="username" name="username" className="p-5"/>
            <input type="email" placeholder="email" name="email" className="p-5"/>
            <input type="password" placeholder="password" name="password" className="p-5"/>
-           <button className="p-5 w-[100%] cursor-pointer bg-sky-700  border-none outline-none  rounded-lg">Sign up</button>
+           <button className="p-5 w-[100%] cursor-pointer bg-sky-700  border-none outline-none  rounded-lg" disabled={loading}>Sign up</button>
         </form>
       </div>
     </div>
