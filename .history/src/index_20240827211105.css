@@ -1,0 +1,31 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+body{
+  background-image:url("b6.jpg") ;
+}
+.flexme{
+  flex:1
+}
+.flexme2{
+  flex:2
+}
+.container11{
+ height: 91vh;
+ width: 80vw;
+ backdrop-filter:blur(18px) saturate(180%) ;
+ border-radius: 12px;
+}
+.custom-scrollbar1::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent; /* Optional: Make the track transparent */
+}

@@ -22,3 +22,8 @@ form{
         text-decoration: underline;
     }
 }
+
+button:disabled{
+    cursor: none;
+    background-color: sienna;
+}

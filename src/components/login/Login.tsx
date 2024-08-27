@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./login.css"
 import { doc, setDoc } from "firebase/firestore"; 
 import { toast } from "react-toastify";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 import  {db,auth} from'../lib/firebase';
 import upload from "../lib/Upload";
 const Login = () => {
@@ -53,9 +53,21 @@ const Login = () => {
     }
   }
 
-  const handleLogin=e=>{
+  const handleLogin=async(e)=>{
     e.preventDefault()
-    toast.warn("invalid argument")
+    const formData=new FormData(e.target)
+    const {email,password}=Object.fromEntries(formData)
+    setLoading(true)
+    try {
+      await signInWithEmailAndPassword(auth,email,password); 
+      toast.success("Sign in succesfully")
+
+    } catch (error) {
+       toast.error("invalid credentials!")
+    }
+    finally{
+      setLoading(false)
+    }
   }
 
 
@@ -67,7 +79,7 @@ const Login = () => {
            <input type="text" placeholder="email" name="email" className="p-5"/>
            <input type="password" placeholder="password" name="password" className="p-5"/>
            
-           <button className="p-5 w-[100%] cursor-pointer bg-sky-500  border-none outline-none  rounded-lg" disabled={loading}>Sign in</button>
+           <button className="p-5 w-[100%] cursor-pointer bg-sky-500  border-none outline-none  rounded-lg" disabled={loading}>{loading?"loading":"Sign in"}</button>
         </form>
       </div>
       <div className="h-[80%] w-1 bg-[#dddddd34]"></div>
@@ -81,7 +93,7 @@ const Login = () => {
            <input type="text"  placeholder="username" name="username" className="p-5"/>
            <input type="email" placeholder="email" name="email" className="p-5"/>
            <input type="password" placeholder="password" name="password" className="p-5"/>
-           <button className="p-5 w-[100%] cursor-pointer bg-sky-700  border-none outline-none  rounded-lg" disabled={loading}>Sign up</button>
+           <button className="p-5 w-[100%] cursor-pointer bg-sky-700  border-none outline-none  rounded-lg" disabled={loading}>{loading?"loading":"Sign up"}</button>
         </form>
       </div>
     </div>
