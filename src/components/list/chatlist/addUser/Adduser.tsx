@@ -1,9 +1,10 @@
-import { collection, doc, getDocs, query, queryEqual, serverTimestamp, setDoc, where } from "firebase/firestore";
+import { collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where,arrayUnion } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { db } from "../../../lib/firebase";
 import { useState } from "react";
-
+import { useuserStore} from "../../../lib/userstore.js"
 const Adduser = () =>{
+  const {currentUser}=useuserStore()
   const [user,setUser]=useState(null)
   const handleSearch=async(e)=>{
     e.preventDefault()
@@ -24,10 +25,32 @@ const Adduser = () =>{
     const chatRef=collection(db,"chats")
     const userchatRef=collection(db,"userchats")
     try {
-       await setDoc(chatRef,{
-        createdAt:serverTimestamp
+       const newchatRef=doc(chatRef)
+       await setDoc(newchatRef,{
+        createdAt:serverTimestamp(),
+        messages:[]
 
        })
+       await updateDoc(doc(userchatRef,user.id),{
+        chats:arrayUnion({
+          chatID:newchatRef.id,
+          lastmessage: "",
+          recieverId:currentUser.id,
+          updatedAt:Date.now()
+
+        })
+       })
+
+       await updateDoc(doc(userchatRef,currentUser.id),{
+        chats:arrayUnion({
+          chatID:newchatRef.id,
+          lastmessage: "",
+          recieverId:user.id,
+          updatedAt:Date.now()
+
+        })
+       })
+
      }catch (err) {
       
      }
@@ -44,7 +67,7 @@ const Adduser = () =>{
           <img src={user.avatar ||"./avatar.png"} alt="" className="h-12 w-12 rounded-full object-cover" />
           <span>{user.username}</span>
         </div>
-        <button onClick={handleAdd}>add user</button>
+        <button onClick={handleAdd} className="p-5 border-none rounded-lg bg-[#1a73e8] cursor-pointer">add user</button>
       </div> }
       
     </div>

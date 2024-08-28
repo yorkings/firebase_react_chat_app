@@ -1,21 +1,36 @@
 import EmojiPicker from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 import "./chat.css";
+import { doc, onSnapshot } from "firebase/firestore";
+import {db } from "../lib/firebase"
 // import {useuserStore} from "../lib/userstore";
 const Chat = () => {
   // const {currentUser} =useuserStore()
+  const [chat,setChat]=useState()
   const [open,setopen]=useState(false)
   const [text,setText]=useState("")
-  const endRef=useRef(null)
+  const endRef=useRef(null) 
 
-  useEffect(()=>{
+  useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-  },[])
+  }, [])
+
+  useEffect(() => {
+    const onSub = onSnapshot(doc(db, 'chats',"jRbaFpzP35o61YPdImeq"), (res) => {
+      setChat(res.data());
+    });
+  
+    return () => {
+      onSub(); // This should be unsubscribing, so it's better to return the unsubscribe function directly.
+    };
+  }, [])
+  console.log(chat)
+
   const handleEmoji= e =>{
      setText(prev=>prev+e.emoji)
      setopen(false)
   }
-
+  
   return (
     <div className="flexme2 border-l-2 border-solid border-l-slate-400 border-r-2  border-r-slate-400 h-[100%] flex flex-col">
       <div className="p-5 flex items-center justify-between border-b-2  border-b-slate-400 ">

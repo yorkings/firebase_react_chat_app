@@ -11,7 +11,7 @@ const Chatlist = () => {
     const unSub = onSnapshot(doc(db, "userchats", currentUser.id),async (res) => {
         const items =res.data().chats;
         const promises=items.map(async(item) => {
-           const userDocref=doc(db,'userchats',item.recieverId);
+           const userDocref=doc(db,'users',item.recieverId);
            const usersnap=await getDoc(userDocref);
            const user=usersnap.data()
            return { ...item,user}
@@ -35,9 +35,9 @@ const Chatlist = () => {
       </div>
      {chats.map(chat=>(
         <div className="flex items-center p-5 gap-5 cursor-pointer  border-b-2 border-solid  border-b-white " key={chat.chatId}>
-        <img src="./avatar.png" alt="" className="h-12 w-12 rounded-full object-cover"/>
+        <img src={chat.user.avatar ||"./avatar.png"} alt="" className="h-12 w-12 rounded-full object-cover"/>
         <div className="flex flex-col">
-          <span className="font-medium">jane doe</span>
+          <span className="font-medium">{chat.user.username}</span>
           <p className="text-xs font-light">{chat.lastmessage}</p>
         </div>
       </div>
