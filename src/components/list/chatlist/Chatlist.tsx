@@ -8,7 +8,8 @@ const Chatlist = () => {
   const [chats,setChats]=useState([])
   const [addMode,setaddMode]=useState(false)
   const { currentUser}=useuserStore()
-
+  const{chatId,changeChat} =usechatStore()
+  console.log(chatId)
   useEffect(()=>{
     const unSub = onSnapshot(doc(db, "userchats", currentUser.id),async (res) => {
         const items =res.data().chats;
@@ -25,7 +26,10 @@ const Chatlist = () => {
       unSub();
     }
   },[currentUser.id])
-  console.log(chats)
+  
+  const handlechat=(chat)=>{
+     changeChat(chat.chatId,chat.user);
+  }
  
   return (
     <div className="flex-1 flex flex-col ">
@@ -37,7 +41,7 @@ const Chatlist = () => {
           <img src={addMode?"./minus.png":"./plus.png"} alt="" className="h-8 w-8 cursor-pointer bg-blue-950 p-3" onClick={()=>setaddMode((prev) =>!prev)}/>
       </div>
      {chats.map(chat=>(
-        <div className="flex items-center p-5 gap-5 cursor-pointer  border-b-2 border-solid  border-b-white " key={chat.chatId}>
+      <div className="flex items-center p-5 gap-5 cursor-pointer  border-b-2 border-solid  border-b-white " key={chat.chatId} onClick={()=>handlechat(chat)}>
         <img src={chat.user.avatar ||"./avatar.png"} alt="" className="h-12 w-12 rounded-full object-cover"/>
         <div className="flex flex-col">
           <span className="font-medium">{chat.user.username}</span>
