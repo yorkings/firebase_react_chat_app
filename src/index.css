@@ -29,3 +29,7 @@ body{
   width: 8px;
   background-color: transparent; /* Optional: Make the track transparent */
 }
+button:disabled{
+  cursor: none;
+  background-color: sienna;
+}

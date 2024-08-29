@@ -6,6 +6,7 @@ import { useuserStore} from "../../../lib/userstore.js"
 const Adduser = () =>{
   const {currentUser}=useuserStore()
   const [user,setUser]=useState(null)
+  const [load,setload]=useState(false)
   const handleSearch=async(e)=>{
     e.preventDefault()
     const formdata=new FormData(e.target)
@@ -15,7 +16,8 @@ const Adduser = () =>{
         const q = query(citiesRef, where("username", "==", username));
         const querySnapshot = await getDocs(q);
         if(!querySnapshot.empty){
-          setUser(querySnapshot.docs[0].data())
+          setUser(querySnapshot.docs[0].data());
+          setload(true)
         }
     } catch (err) {
       toast.error(err)
@@ -33,7 +35,7 @@ const Adduser = () =>{
        })
        await updateDoc(doc(userchatRef,user.id),{
         chats:arrayUnion({
-          chatID:newchatRef.id,
+          chatId:newchatRef.id,
           lastmessage: "",
           recieverId:currentUser.id,
           updatedAt:Date.now()
@@ -43,7 +45,7 @@ const Adduser = () =>{
 
        await updateDoc(doc(userchatRef,currentUser.id),{
         chats:arrayUnion({
-          chatID:newchatRef.id,
+          chatId:newchatRef.id,
           lastmessage: "",
           recieverId:user.id,
           updatedAt:Date.now()
@@ -59,7 +61,7 @@ const Adduser = () =>{
     <div className="h-max w-max p-7 rounded-lg absolute top-0 bottom-0 left-0 right-0 m-auto bg-[rgba(21,23,27,0.9)]">
       <form className="flex gap-5" onSubmit={(e)=>handleSearch(e)}>
         <input type="text" name='username' placeholder='username' className="p-5 border-none rounded-lg outline-none"/>
-        <button className="p-5 border-none rounded-lg bg-[#1a73e8] cursor-pointer">Search</button>
+        <button className="p-5 border-none rounded-lg bg-[#1a73e8] cursor-pointer" disabled={load}>{load?"searching":"search"}</button>
       </form> 
       {user && 
       <div className="mt-12 flex items-center justify-between">

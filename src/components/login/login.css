@@ -23,7 +23,3 @@ form{
     }
 }
 
-button:disabled{
-    cursor: none;
-    background-color: sienna;
-}

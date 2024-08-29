@@ -2,11 +2,13 @@ import { useEffect, useState } from "react"
 import Adduser from "./addUser/Adduser";
 import { db} from "../../lib/firebase";
 import { useuserStore } from "../../lib/userstore";
+import { usechatStore } from "../../lib/userchatStore";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 const Chatlist = () => {
   const [chats,setChats]=useState([])
   const [addMode,setaddMode]=useState(false)
   const { currentUser}=useuserStore()
+
   useEffect(()=>{
     const unSub = onSnapshot(doc(db, "userchats", currentUser.id),async (res) => {
         const items =res.data().chats;
@@ -24,6 +26,7 @@ const Chatlist = () => {
     }
   },[currentUser.id])
   console.log(chats)
+ 
   return (
     <div className="flex-1 flex flex-col ">
       <div className="flex items-center gap-5 p-5">
