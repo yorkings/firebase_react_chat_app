@@ -107,15 +107,15 @@ const Chat = () => {
       
       <div className="p-3 flexme overflow-y-scroll flex flex-col gap-5 custom-scrollbar text-sm">
         {chats?.messages?.map(mess =>(
-          <div className="max-w-[80%] flex gap-5" key={mess?.createdAt}>
+          <div className={mess.senderId === currentUser?.id  ? "message" : "message-own"} key={mess?.createdAt}>
             {mess.img &&
             <img src={mess.img} alt=""  className="w-12 h-12 rounded-full object-cover"/> }
           
-          <div className="flexme flex flex-col gap-1 self-end">
-            <p className="p-1 bg-[rgb(81,131,254)] rounded-lg">
+          <div className="flexme flex flex-col gap-1 ">
+            <p className="p-1  ">
               {mess.text}
             </p>
-            <span>1 min</span>
+            
           </div>
         </div>
         ))}

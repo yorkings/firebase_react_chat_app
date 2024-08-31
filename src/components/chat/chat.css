@@ -2,3 +2,19 @@
     width: 8px;
     background-color: transparent; /* Optional: Make the track transparent */
   }
+.message{
+  background-color: #5138fe;
+  display: flex;
+  align-self: self-end;
+  border-radius: 10px;
+  gap: 12px;
+}
+
+ .message-own{
+    max-width: 40%;
+    background-color: #dddddd36;
+    display: flex;
+    border-radius: 10px;
+    gap: 12px;
+ }
+ 
