@@ -1,4 +1,4 @@
-import { signOut } from "firebase/auth"
+
 import "./Detail.css"
 import{ auth } from "../lib/firebase";
 const Detail = () => {

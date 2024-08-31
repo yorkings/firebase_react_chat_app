@@ -6,6 +6,7 @@ import {db } from "../lib/firebase";
 import {usechatStore} from "../lib/userchatStore";
 import {useuserStore} from "../lib/userstore";
 import { toast } from "react-toastify";
+import upload  from "../lib/Upload";
 const Chat = () => {
   const {chatId,user} =usechatStore()
   const {currentUser}=useuserStore()
@@ -24,6 +25,7 @@ const Chat = () => {
 
   useEffect(() => {
     const onSub = onSnapshot(doc(db, 'chats',chatId), (res) => {
+      
       setChats(res.data());
     });
   

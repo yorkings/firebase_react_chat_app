@@ -3,7 +3,7 @@ import Adduser from "./addUser/Adduser";
 import { db} from "../../lib/firebase";
 import { useuserStore } from "../../lib/userstore";
 import { usechatStore } from "../../lib/userchatStore";
-import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 const Chatlist = () => {
   const [chats,setChats]=useState([])
   const [addMode,setaddMode]=useState(false)
