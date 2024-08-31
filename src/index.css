@@ -11,7 +11,7 @@
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 body{
-  background-image:url("../public/b8.webp") ;
+  background-image:url("/b8.webp") ;
 }
 .flexme{
   flex:1
