@@ -1,6 +1,6 @@
 import { collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where,arrayUnion } from "firebase/firestore";
 import { toast } from "react-toastify";
-import { db } from "../../../lib/firebase";
+import { db } from "../../../lib/firebase.js";
 import { useState } from "react";
 import { useuserStore} from "../../../lib/userstore.js"
 const Adduser = () =>{
